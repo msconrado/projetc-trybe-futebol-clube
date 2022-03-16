@@ -2,6 +2,9 @@ version: '3.9'
 services:
   frontend:
     build: ./frontend
+    restart: 'always'
+    ports:
+      - 3000:3000
     depends_on:
       backend:
         condition: service_healthy
@@ -11,13 +14,16 @@ services:
       retries: 5
   backend:
     build: ./backend
+    restart: 'always'
+    ports:
+      - 3001:3001
     depends_on:
       db:
         condition: service_healthy
     environment:
       - PORT=3001
-      - DB_USER=matheus
-      - DB_PASS=25030606
+      - DB_USER=root
+      - DB_PASS=123456
       - DB_HOST=db
       - DB_NAME=TRYBE_FUTEBOL_CLUBE
       - DB_PORT=3306
