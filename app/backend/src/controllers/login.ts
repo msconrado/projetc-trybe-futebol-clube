@@ -29,6 +29,7 @@ const user = async (req: Request, res: Response, next: NextFunction) => {
         .status(StatusCodes.Unauthorized)
         .json({ message: 'Token invalid' });
     }
+
     const { role } = await verifyToken(authorization);
 
     return res.status(StatusCodes.Ok).json(role);

@@ -29,25 +29,49 @@ describe('Rota /login', () => {
   });
 
   describe('O login', () => {
-    it('é feito com sucesso', async () => {
-      chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({
-        username: dockerUser[0].username,
+  //   it('é feito com sucesso', async () => {
+  //     chaiHttpResponse = await chai.request(app)
+  //     .post('/login')
+  //     .send({
+  //       email: dockerUser[0].email,
+  //       password: dockerUser[0].password,
+  //     });
+  //     // console.log(chaiHttpResponse);
+
+  //     expect(chaiHttpResponse).to.have.status(200);
+  //   });
+
+    it("da a messagem de erro 'Incorrect email or password' quando o email ou o password é invalido", async () => {
+      chaiHttpResponse = await chai.request(app).post('/login').send({
+        email: 'email@email.com',
         password: dockerUser[0].password,
       });
 
-      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse).to.have.status(401);
+      expect(chaiHttpResponse.body.message).to.be.equal(
+        'Incorrect email or password'
+      );
     });
 
-    it('da erro quando o email ou o password é invalido', async () => {
-      chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({
-        username: dockerUser[1].username,
-        password: dockerUser[1].password,
+    it("da a messagem de erro 'All fields must be fillederr' quando não passa o email", async () => {
+      chaiHttpResponse = await chai.request(app).post('/login').send({
+        password: dockerUser[0].password,
       });
-      expect(chaiHttpResponse).to.be.eq(401);
+
+      expect(chaiHttpResponse).to.have.status(401);
+      expect(chaiHttpResponse.body.message).to.be.equal(
+        'All fields must be filled'
+      );
+    });
+
+    it("da a messagem de erro 'Token invalid' quando não passa o password", async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/login/validate')
+        .send({ authorization: 123456789 });
+
+      expect(chaiHttpResponse).to.have.status(401);
+      expect(chaiHttpResponse.body.message).to.be.equal('Token invalid');
     });
   });
 });
