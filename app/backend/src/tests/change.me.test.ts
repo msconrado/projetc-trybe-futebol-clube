@@ -8,6 +8,7 @@ import ClubModel from '../database/models/ClubsModel';
 import usersMock from './mock/usersMock';
 import clubsMock from './mock/clubsMock';
 import { Response } from 'superagent';
+import MatchModel from '../database/models/MatchModel';
 
 chai.use(chaiHttp);
 
@@ -32,7 +33,7 @@ describe('Rota /login', () => {
       });
 
       console.log(chaiHttpResponse.body.token);
-      
+
       expect(chaiHttpResponse).to.have.status(200);
       expect(chaiHttpResponse.body.token).to.have.key;
     });
@@ -106,10 +107,30 @@ describe('Rota /clubs/:id', () => {
   describe('Club', () => {
     it('é retornado um club existente', async () => {
       chaiHttpResponse = await chai.request(app).get('/clubs/1');
-      
+
       expect(chaiHttpResponse).to.have.status(200);
       expect(chaiHttpResponse.body.id).to.have.equal(1);
       expect(chaiHttpResponse.body.clubName).to.have.equal('Avaí/Kindermann');
+    });
+  });
+});
+
+describe('Rota /matchs', () => {
+  let chaiHttpResponse: Response;
+
+  before(async () => {
+    sinon.stub(MatchModel, 'findAll').resolves();
+  });
+
+  after(() => {
+    (MatchModel.findAll as sinon.SinonStub).restore();
+  });
+
+  describe('Matchs', () => {
+    it('é retornado um array de todos os matchs', async () => {
+      chaiHttpResponse = await chai.request(app).get('/matchs');
+
+      expect(chaiHttpResponse).to.have.status(200);
     });
   });
 });
