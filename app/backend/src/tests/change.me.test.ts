@@ -106,8 +106,10 @@ describe('Rota /clubs/:id', () => {
   describe('Club', () => {
     it('é retornado um club existente', async () => {
       chaiHttpResponse = await chai.request(app).get('/clubs/1');
-
+      
       expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body.id).to.have.equal(1);
+      expect(chaiHttpResponse.body.clubName).to.have.equal('Avaí/Kindermann');
     });
   });
 });
