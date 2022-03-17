@@ -16,9 +16,9 @@ const getById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
-    const clubs = await clubsService.getById({ id });
+    const club = await clubsService.getByid({ id });
 
-    return res.status(StatusCodes.Ok).json(clubs);
+    return res.status(StatusCodes.Ok).json(club);
   } catch (error) {
     next(error);
   }

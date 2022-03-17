@@ -1,3 +1,4 @@
+import { IId } from '../interfaces/clubsInterface';
 import ClubsModel from '../database/models/ClubsModel';
 
 const getAll = async () => {
@@ -6,4 +7,10 @@ const getAll = async () => {
   return clubs;
 };
 
-export default { getAll };
+const getByid = async ({ id }: IId) => {
+  const clubs = await ClubsModel.findByPk(id);
+
+  return clubs;
+};
+
+export default { getAll, getByid };
