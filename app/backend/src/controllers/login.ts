@@ -7,7 +7,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
     const user = await loginService.login({ email, password });
 
-    res.status(200).json(user);
+    if (!user) {
+      return res.status(401).json({ message: 'Incorrect email or password' });
+    }
+    return res.status(200).json(user);
   } catch (error) {
     next(error);
   }

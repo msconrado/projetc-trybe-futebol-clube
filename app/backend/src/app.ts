@@ -10,6 +10,7 @@ class App {
     // ...
     this.app = express();
     this.config();
+    this.rotas();
     // ...
   }
 
@@ -23,14 +24,16 @@ class App {
 
     this.app.use(accessControl);
     this.app.use(express.json());
-
-    this.app.use(routerLogin);
-
-    this.app.use(errorMiddleware);
     // ...
   }
 
+  private rotas(): void {
+    this.app.use(routerLogin);
+
+    this.app.use(errorMiddleware);
+  }
   // ...
+
   public start(PORT: string | number): void {
     this.app.listen(PORT, () => console.log(`Rodando na porta ${PORT}`));
   }
