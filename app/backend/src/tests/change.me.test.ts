@@ -17,13 +17,7 @@ describe('Rota /login', () => {
   let chaiHttpResponse: Response;
 
   before(async () => {
-    sinon.stub(User, 'findOne').resolves({
-      id: 1,
-      username: 'User',
-      role: 'user',
-      email: 'user@user.com',
-      password: 'secret_user',
-    } as User);
+    sinon.stub(User, 'findOne').resolves(usersMock[0] as User);
   });
 
   after(() => {
@@ -31,17 +25,17 @@ describe('Rota /login', () => {
   });
 
   describe('Login', () => {
-    //   it('é feito com sucesso', async () => {
-    //     chaiHttpResponse = await chai.request(app)
-    //     .post('/login')
-    //     .send({
-    //       email: usersMock[0].email,
-    //       password: usersMock[0].password,
-    //     });
-    //     // console.log(chaiHttpResponse);
+  //     it('é feito com sucesso', async () => {
+  //       chaiHttpResponse = await chai.request(app)
+  //       .post('/login')
+  //       .send({
+  //         email: usersMock[0].email,
+  //         password: usersMock[0].password,
+  //       });
+  //       // console.log(chaiHttpResponse);
 
-    //     expect(chaiHttpResponse).to.have.status(200);
-    //   });
+  //       expect(chaiHttpResponse).to.have.status(200);
+  //     });
 
     it("da a messagem de erro 'Incorrect email or password' quando o email ou o password é invalido", async () => {
       chaiHttpResponse = await chai.request(app).post('/login').send({
@@ -82,20 +76,7 @@ describe('Rota /clubs', () => {
   let chaiHttpResponse: Response;
 
   before(async () => {
-    sinon.stub(ClubModel, 'findAll').resolves([
-      {
-        id: 1,
-        clubName: "Avaí/Kindermann"
-      },
-      {
-        id: 2,
-        clubName: "Bahia"
-      },
-      {
-        id: 3,
-        clubName: "Botafogo"
-      },
-    ] as ClubModel[]);
+    sinon.stub(ClubModel, 'findAll').resolves(clubsMock as ClubModel[]);
   });
 
   after(() => {
@@ -103,12 +84,11 @@ describe('Rota /clubs', () => {
   });
 
   describe('Clubs', () => {
-      it('é retornado um array com todos os clubs', async () => {
-        chaiHttpResponse = await chai.request(app)
-        .get('/clubs');
+    it('é retornado um array com todos os clubs', async () => {
+      chaiHttpResponse = await chai.request(app).get('/clubs');
 
-        expect(chaiHttpResponse).to.have.status(200);
-      });
+      expect(chaiHttpResponse).to.have.status(200);
+    });
 
     it('', async () => {
       chaiHttpResponse = await chai.request(app).get('/clubs/1');
