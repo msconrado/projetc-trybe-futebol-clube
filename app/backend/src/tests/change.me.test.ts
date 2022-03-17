@@ -3,12 +3,12 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import User from '../database/models/UserModel';
 import ClubModel from '../database/models/ClubsModel';
-import usersMock from './mock/usersMock';
-import clubsMock from './mock/clubsMock';
-import { Response } from 'superagent';
 import MatchModel from '../database/models/MatchModel';
+import User from '../database/models/UserModel';
+import clubsMock from './mock/clubsMock';
+import usersMock from './mock/usersMock';
+import { Response } from 'superagent';
 
 chai.use(chaiHttp);
 
