@@ -22,6 +22,23 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const create = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
+
+    const matchs = await matchsService.create({
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAll,
+  create,
 };
