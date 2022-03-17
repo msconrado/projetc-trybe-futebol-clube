@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import StatusCodes from '../enum/statusCode';
 
 const errorMiddleware = (
   err: ErrorRequestHandler,
@@ -9,7 +10,7 @@ const errorMiddleware = (
   console.log(err.toString());
 
   return res
-    .status(500)
+    .status(StatusCodes.InternalServerError)
     .json({ Error: err.toString() });
 };
 

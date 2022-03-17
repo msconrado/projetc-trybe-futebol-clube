@@ -14,7 +14,7 @@ const login = async ({ email, password }: IUser) => {
 
   if (!crypt) return false;
 
-  const token = await createToken({ id: user.id || 1, username: user.username });
+  const token = await createToken({ email, username: user.username, role: user.role });
 
   const returnUser = {
     user: {

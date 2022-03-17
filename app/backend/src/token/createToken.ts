@@ -1,10 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs/promises';
-
-interface ISecret {
-  id: number;
-  username: string;
-}
+import { ISecret } from '../interfaces/tokenInterfaces';
 
 const JWTKEY = 'jwt.evaluation.key';
 

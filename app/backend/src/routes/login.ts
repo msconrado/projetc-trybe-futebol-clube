@@ -4,7 +4,7 @@ import loginController from '../controllers/login';
 
 const routerLogin = Router();
 
-routerLogin.get('login/validate');
+routerLogin.get('/login/validate', loginController.user);
 routerLogin.post('/login', loginValidation, loginController.login);
 
 export default routerLogin;
