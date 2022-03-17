@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '.';
-import MatchModel from './MatchModel';
 
 class ClubModel extends Model {
   public id?: number;
@@ -28,7 +27,5 @@ ClubModel.init(
     timestamps: false,
   },
 );
-
-ClubModel.hasMany(MatchModel, { foreignKey: 'id', as: 'matchs' });
 
 export default ClubModel;
