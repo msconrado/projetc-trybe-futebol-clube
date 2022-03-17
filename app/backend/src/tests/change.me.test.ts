@@ -25,21 +25,21 @@ describe('Rota /login', () => {
   });
 
   describe('Login', () => {
-  //     it('é feito com sucesso', async () => {
-  //       chaiHttpResponse = await chai.request(app)
-  //       .post('/login')
-  //       .send({
-  //         email: usersMock[0].email,
-  //         password: usersMock[0].password,
-  //       });
-  //       // console.log(chaiHttpResponse);
+    it('é feito com sucesso', async () => {
+      chaiHttpResponse = await chai.request(app).post('/login').send({
+        email: usersMock[0].email,
+        password: 'secret_user',
+      });
 
-  //       expect(chaiHttpResponse).to.have.status(200);
-  //     });
+      console.log(chaiHttpResponse.body.token);
+      
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body.token).to.have.key;
+    });
 
     it("da a messagem de erro 'Incorrect email or password' quando o email ou o password é invalido", async () => {
       chaiHttpResponse = await chai.request(app).post('/login').send({
-        email: 'email@email.com',
+        email: usersMock[1].password,
         password: usersMock[0].password,
       });
 
@@ -48,7 +48,6 @@ describe('Rota /login', () => {
         'Incorrect email or password'
       );
     });
-
     it("da a messagem de erro 'All fields must be fillederr' quando não passa o email", async () => {
       chaiHttpResponse = await chai.request(app).post('/login').send({
         password: usersMock[0].password,
@@ -88,9 +87,24 @@ describe('Rota /clubs', () => {
       chaiHttpResponse = await chai.request(app).get('/clubs');
 
       expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body).to.have.length(3);
     });
+  });
+});
 
-    it('', async () => {
+describe('Rota /clubs/:id', () => {
+  let chaiHttpResponse: Response;
+
+  before(async () => {
+    sinon.stub(ClubModel, 'findByPk').resolves(clubsMock[0] as ClubModel);
+  });
+
+  after(() => {
+    (ClubModel.findByPk as sinon.SinonStub).restore();
+  });
+
+  describe('Club', () => {
+    it('é retornado um club existente', async () => {
       chaiHttpResponse = await chai.request(app).get('/clubs/1');
 
       expect(chaiHttpResponse).to.have.status(200);

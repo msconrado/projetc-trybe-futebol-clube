@@ -3,6 +3,6 @@ import clubsController from '../controllers/clubs';
 
 const router = Router();
 
-router.get('/clubs', clubsController.getAll);
+router.get('/', clubsController.getAll);
 
 export default router;

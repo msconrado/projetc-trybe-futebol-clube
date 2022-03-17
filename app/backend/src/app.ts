@@ -29,8 +29,8 @@ class App {
   }
 
   private rotas(): void {
-    this.app.use(routerLogin);
-    this.app.use(routerClubs);
+    this.app.use('/login', routerLogin);
+    this.app.use('/clubs', routerClubs);
 
     this.app.use(errorMiddleware);
   }
