@@ -4,7 +4,9 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import User from '../database/models/UserModel';
+import ClubModel from '../database/models/ClubsModel';
 import usersMock from './mock/usersMock';
+import clubsMock from './mock/clubsMock';
 import { Response } from 'superagent';
 
 chai.use(chaiHttp);
@@ -80,33 +82,38 @@ describe('Rota /clubs', () => {
   let chaiHttpResponse: Response;
 
   before(async () => {
-    sinon.stub(User, 'findOne').resolves({
-      id: 1,
-      username: 'User',
-      role: 'user',
-      email: 'user@user.com',
-      password: 'secret_user',
-    } as User);
+    sinon.stub(ClubModel, 'findAll').resolves([
+      {
+        id: 1,
+        clubName: "Avaí/Kindermann"
+      },
+      {
+        id: 2,
+        clubName: "Bahia"
+      },
+      {
+        id: 3,
+        clubName: "Botafogo"
+      },
+    ] as ClubModel[]);
   });
 
   after(() => {
-    (User.findOne as sinon.SinonStub).restore();
+    (ClubModel.findAll as sinon.SinonStub).restore();
   });
 
   describe('Clubs', () => {
-    //   it('', async () => {
-    //     chaiHttpResponse = await chai.request(app)
-    //     .post('/clubs');
-
-    //     expect(chaiHttpResponse).to.have.status(200);
-    //   });
-
-          it('', async () => {
+      it('é retornado um array com todos os clubs', async () => {
         chaiHttpResponse = await chai.request(app)
-        .get('/clubs/1')
+        .get('/clubs');
 
-        // console.log(chaiHttpResponse);
         expect(chaiHttpResponse).to.have.status(200);
       });
+
+    it('', async () => {
+      chaiHttpResponse = await chai.request(app).get('/clubs/1');
+
+      expect(chaiHttpResponse).to.have.status(200);
+    });
   });
 });

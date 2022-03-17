@@ -1,5 +1,4 @@
 export default [
-  
 	{
 		"id": 1,
 		"clubName": "Avaí/Kindermann"
