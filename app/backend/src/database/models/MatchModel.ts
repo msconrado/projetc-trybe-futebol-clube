@@ -52,7 +52,7 @@ MatchModel.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    inTrogress: {
+    inProgress: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
