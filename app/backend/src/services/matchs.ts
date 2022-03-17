@@ -1,4 +1,5 @@
 // import ClubModel from '../database/models/ClubsModel';
+import { ICreateMatchs } from '../interfaces/matchsInterface';
 import ClubModel from '../database/models/ClubsModel';
 import MatchModel from '../database/models/MatchModel';
 
@@ -41,7 +42,27 @@ const search = async (query: boolean) => {
 
   return matchs;
 };
+
+const create = async ({
+  homeTeam,
+  awayTeam,
+  homeTeamGoals,
+  awayTeamGoals,
+  inProgress,
+}: ICreateMatchs) => {
+  const matchs = await MatchModel.create({
+    homeTeam,
+    awayTeam,
+    homeTeamGoals,
+    awayTeamGoals,
+    inProgress,
+  });
+
+  return matchs;
+};
+
 export default {
   getAll,
   search,
+  create,
 };

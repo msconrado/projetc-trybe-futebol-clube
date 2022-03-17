@@ -26,13 +26,15 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
 
-    const matchs = await matchsService.create({
+    const match = await matchsService.create({
       homeTeam,
       awayTeam,
       homeTeamGoals,
       awayTeamGoals,
       inProgress,
     });
+
+    return res.status(StatusCodes.Ok).json(match);
   } catch (error) {
     next(error);
   }
