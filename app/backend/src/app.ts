@@ -1,5 +1,6 @@
 import * as express from 'express';
 import errorMiddleware from './middlewares/middlewareError';
+import routerClubs from './routes/clubs';
 import routerLogin from './routes/login';
 
 class App {
@@ -29,6 +30,7 @@ class App {
 
   private rotas(): void {
     this.app.use(routerLogin);
+    this.app.use(routerClubs);
 
     this.app.use(errorMiddleware);
   }
