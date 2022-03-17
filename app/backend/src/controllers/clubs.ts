@@ -12,6 +12,19 @@ const getAll = async (_req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    const clubs = await clubsService.getById({ id });
+
+    return res.status(StatusCodes.Ok).json(clubs);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAll,
+  getById,
 };
