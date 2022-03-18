@@ -11,8 +11,9 @@ const router = Router();
 router.get('/', matchsController.getAll);
 router.post(
   '/',
-  matchsClubsValidation,
   matchsTokenValidation,
+  matchsClubsValidation,
+  matchsController.notClubs,
   matchsController.create,
 );
 

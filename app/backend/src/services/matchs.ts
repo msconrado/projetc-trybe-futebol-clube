@@ -1,4 +1,5 @@
-// import ClubModel from '../database/models/ClubsModel';
+import { Op } from 'sequelize';
+import { IHomeAway } from '../interfaces/clubsInterface';
 import { ICreateMatchs } from '../interfaces/matchsInterface';
 import ClubModel from '../database/models/ClubsModel';
 import MatchModel from '../database/models/MatchModel';
@@ -43,6 +44,18 @@ const search = async (query: boolean) => {
   return matchs;
 };
 
+const getByClub = async ({ homeTeam, awayTeam }: IHomeAway) => {
+  const clubs = await ClubModel.findAll({
+    where: {
+      [Op.or]: [{ id: homeTeam }, { id: awayTeam }],
+    },
+  });
+
+  if (!clubs[0] || !clubs[1]) return false;
+
+  return true;
+};
+
 const create = async ({
   homeTeam,
   awayTeam,
@@ -65,4 +78,5 @@ export default {
   getAll,
   search,
   create,
+  getByClub,
 };

@@ -22,6 +22,23 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const notClubs = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { homeTeam, awayTeam } = req.body;
+    const notClub = await matchsService.getByClub({ homeTeam, awayTeam });
+
+    if (!notClub) {
+      return res
+        .status(StatusCodes.Unauthorized)
+        .json({ message: 'Team not found' });
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress } = req.body;
@@ -43,4 +60,5 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
 export default {
   getAll,
   create,
+  notClubs,
 };
