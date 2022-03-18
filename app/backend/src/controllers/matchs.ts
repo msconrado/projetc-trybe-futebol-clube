@@ -57,8 +57,18 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const update = async (req: Request, res: Response, next: NextFunction) => {
+try {
+  const { id } = req.params;
+  const finish = await matchsService.getByClub({ id });
+} catch (error) {
+  next(error)
+}
+}
+
 export default {
   getAll,
   create,
   notClubs,
+  update,
 };
