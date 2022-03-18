@@ -72,9 +72,21 @@ const updateInProgress = async (
   }
 };
 
+const updateGoals = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const { id } = req.params;
+
+    await matchsService.updateGoals({ homeTeamGoals, awayTeamGoals, id });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default {
   getAll,
   create,
   notClubs,
   updateInProgress,
+  updateGoals,
 };
