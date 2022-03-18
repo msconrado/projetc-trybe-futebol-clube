@@ -78,6 +78,14 @@ const updateGoals = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
     await matchsService.updateGoals({ homeTeamGoals, awayTeamGoals, id });
+
+    return res
+      .status(StatusCodes.Ok)
+      .json({ scoreboard: {
+        idMatch: +id,
+        homeTeam: homeTeamGoals,
+        awayTeam: awayTeamGoals },
+      });
   } catch (error) {
     next(error);
   }
