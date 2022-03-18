@@ -26,7 +26,7 @@ const matchsClubsValidation = (req: Request, res: Response, next: NextFunction) 
         .json({ message: 'It is not possible to create a match with two equal teams' });
     }
 
-    if (inProgress !== true) {
+    if (!inProgress) {
       return res
         .status(StatusCodes.Unauthorized)
         .json({ message: 'There is no team with such id!' });

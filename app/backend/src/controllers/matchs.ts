@@ -30,7 +30,7 @@ const notClubs = async (req: Request, res: Response, next: NextFunction) => {
     if (!notClub) {
       return res
         .status(StatusCodes.Unauthorized)
-        .json({ message: 'Team not found' });
+        .json({ message: 'There is no team with such id!' });
     }
 
     next();
@@ -51,20 +51,22 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       inProgress,
     });
 
-    return res.status(StatusCodes.Ok).json(match);
+    return res.status(StatusCodes.Created).json(match);
   } catch (error) {
     next(error);
   }
 };
 
 const update = async (req: Request, res: Response, next: NextFunction) => {
-try {
-  const { id } = req.params;
-  const finish = await matchsService.getByClub({ id });
-} catch (error) {
-  next(error)
-}
-}
+  try {
+    const { id } = req.params;
+    await matchsService.update({ id });
+
+    return res.status(StatusCodes.Ok).end();
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default {
   getAll,

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { IHomeAway } from '../interfaces/clubsInterface';
+import { IHomeAway, IId } from '../interfaces/clubsInterface';
 import { ICreateMatchs } from '../interfaces/matchsInterface';
 import ClubModel from '../database/models/ClubsModel';
 import MatchModel from '../database/models/MatchModel';
@@ -74,9 +74,19 @@ const create = async ({
   return matchs;
 };
 
+const update = async ({ id }: IId) => {
+  await MatchModel.update(
+    { inProgress: false },
+    { where: { id } },
+  );
+
+  return true;
+};
+
 export default {
   getAll,
   search,
   create,
   getByClub,
+  update,
 };
