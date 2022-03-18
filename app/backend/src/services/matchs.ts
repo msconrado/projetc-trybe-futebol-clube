@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { IHomeAway, IId } from '../interfaces/clubsInterface';
+import { IHomeAway, IId, IUpdateGols } from '../interfaces/clubsInterface';
 import { ICreateMatchs } from '../interfaces/matchsInterface';
 import ClubModel from '../database/models/ClubsModel';
 import MatchModel from '../database/models/MatchModel';
@@ -83,10 +83,22 @@ const updateInProgress = async ({ id }: IId) => {
   return true;
 };
 
+const updateGoals = async ({ homeTeamGoals, awayTeamGoals, id }: IUpdateGols) => {
+  await MatchModel.update(
+    { homeTeamGoals,
+      awayTeamGoals,
+    },
+    { where: { id } },
+  );
+
+  return true;
+};
+
 export default {
   getAll,
   search,
   create,
   getByClub,
   updateInProgress,
+  updateGoals,
 };
