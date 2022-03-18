@@ -12,7 +12,7 @@ const matchsTokenValidation = async (req: Request, res: Response, next: NextFunc
   } catch (error) {
     return res
       .status(StatusCodes.Unauthorized)
-      .json({ message: 'It is not possible to create a match with two equal teams' });
+      .json({ message: 'Token invalido!!' });
   }
 };
 
