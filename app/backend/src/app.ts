@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import errorMiddleware from './middlewares/middlewareError';
 import routerClubs from './routes/clubs';
+import routerLeaderboard from './routes/leaderboard';
 import routerLogin from './routes/login';
 import routerMathcs from './routes/matchs';
 
@@ -35,6 +36,7 @@ class App {
     this.app.use('/login', routerLogin);
     this.app.use('/clubs', routerClubs);
     this.app.use('/matchs', routerMathcs);
+    this.app.use('/leaderboard', routerLeaderboard);
 
     this.app.use(errorMiddleware);
   }
