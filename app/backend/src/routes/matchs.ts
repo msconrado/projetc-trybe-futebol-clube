@@ -16,6 +16,7 @@ router.post(
   matchsController.notClubs,
   matchsController.create,
 );
-router.patch('/:id/finish', matchsController.update);
+router.patch('/:id', matchsController.updateGoals);
+router.patch('/:id/finish', matchsController.updateInProgress);
 
 export default router;

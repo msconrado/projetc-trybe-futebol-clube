@@ -74,7 +74,7 @@ const create = async ({
   return matchs;
 };
 
-const update = async ({ id }: IId) => {
+const updateInProgress = async ({ id }: IId) => {
   await MatchModel.update(
     { inProgress: false },
     { where: { id } },
@@ -88,5 +88,5 @@ export default {
   search,
   create,
   getByClub,
-  update,
+  updateInProgress,
 };

@@ -57,12 +57,16 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const update = async (req: Request, res: Response, next: NextFunction) => {
+const updateInProgress = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { id } = req.params;
-    await matchsService.update({ id });
+    await matchsService.updateInProgress({ id });
 
-    return res.status(StatusCodes.Ok).end();
+    return res.status(StatusCodes.Ok).json({ message: 'Match finished!!' });
   } catch (error) {
     next(error);
   }
@@ -72,5 +76,5 @@ export default {
   getAll,
   create,
   notClubs,
-  update,
+  updateInProgress,
 };
