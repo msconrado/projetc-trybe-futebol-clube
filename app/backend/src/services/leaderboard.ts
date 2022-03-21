@@ -4,6 +4,7 @@ import clubService from './clubs';
 import { IClassification } from '../interfaces/leaderboardInterfaces';
 import createArrayClubs from '../utils/createArrayClubs';
 import sortClassification from '../utils/sortClassification';
+import { tiedHome, winAwayHome, winHomeHome } from '../utils/homeGamesRanking';
 import { winHome, winAway, tied } from '../utils/gamesRanking';
 
 let classification: IClassification[] = [];
@@ -27,6 +28,28 @@ const getAll = async () => {
   return sortClassification(classification);
 };
 
+const getAllHome = async () => {
+  classification = [];
+  const matchsHome = await matchsService.getAll();
+  const clubsHome = await clubService.getAll();
+
+  createArrayClubs(clubsHome, classification);
+
+  matchsHome.forEach((matchHome: Matchs) => {
+    if (matchHome.inProgress) return;
+
+    const result = matchHome.homeTeamGoals - matchHome.awayTeamGoals;
+
+    if (result === 0) return tiedHome(matchHome, classification);
+    if (result > 0) return winHomeHome(matchHome, classification);
+
+    return winAwayHome(matchHome, classification);
+  });
+
+  return sortClassification(classification);
+};
+
 export default {
   getAll,
+  getAllHome,
 };
