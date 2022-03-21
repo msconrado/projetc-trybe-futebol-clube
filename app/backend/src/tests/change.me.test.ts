@@ -15,12 +15,14 @@ import matchsMock, {
   TwoEqualTeams,
 } from './mock/matchsMock';
 import { Response } from 'superagent';
+import { leaderboardMock } from './mock/leaderboardMock';
+import { Matchs } from '../interfaces/matchsInterfaces';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Rota Login', () => {
+describe('Rotas Login', () => {
   let chaiHttpResponse: Response;
 
   before(async () => {
@@ -91,7 +93,7 @@ describe('Rota Login', () => {
   });
 });
 
-describe('Rota Clubs', () => {
+describe('Rotas Clubs', () => {
   let chaiHttpResponse: Response;
 
   before(async () => {
@@ -132,7 +134,7 @@ describe('Rota Clubs', () => {
   });
 });
 
-describe('Rota Matchs', () => {
+describe('Rotas Matchs', () => {
   describe('GET /matchs', () => {
     let chaiHttpResponse: Response;
 
@@ -324,10 +326,85 @@ describe('Rota Matchs', () => {
         .send(scoreboardUpdate);
 
       expect(chaiHttpResponse).to.have.status(200);
-      expect(chaiHttpResponse.body.scoreboard).to.have.key
-      expect(chaiHttpResponse.body.scoreboard.idMatch).to.be.equal(1)
-      expect(chaiHttpResponse.body.scoreboard.homeTeam).to.be.equal(scoreboardUpdate.homeTeamGoals)
-      expect(chaiHttpResponse.body.scoreboard.awayTeam).to.be.equal(scoreboardUpdate.awayTeamGoals)
+      expect(chaiHttpResponse.body.scoreboard).to.have.key;
+      expect(chaiHttpResponse.body.scoreboard.idMatch).to.be.equal(1);
+      expect(chaiHttpResponse.body.scoreboard.homeTeam).to.be.equal(
+        scoreboardUpdate.homeTeamGoals
+      );
+      expect(chaiHttpResponse.body.scoreboard.awayTeam).to.be.equal(
+        scoreboardUpdate.awayTeamGoals
+      );
+    });
+  });
+});
+
+describe('Rotas Leaderboard', () => {
+  describe('GET /leaderboard', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon.stub(ClubModel, 'findAll').resolves(clubsMock as ClubModel[]);
+      sinon.stub(MatchModel, 'findAll').resolves(leaderboardMock as Matchs[]);
+    });
+
+    after(() => {
+      (ClubModel.findAll as sinon.SinonStub).restore();
+      (MatchModel.findAll as sinon.SinonStub).restore();
+    });
+
+    it('é retornado a tabela de classificação geral', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard');
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[0].name).to.be.equal('Avaí/Kindermann');
+      expect(chaiHttpResponse.body[0].totalPoints).to.be.equal(7);
+      expect(chaiHttpResponse.body[1].name).to.be.equal('Bahia');
+    });
+  });
+
+  describe('GET /leaderboard/home', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon.stub(ClubModel, 'findAll').resolves(clubsMock as ClubModel[]);
+      sinon.stub(MatchModel, 'findAll').resolves(leaderboardMock as Matchs[]);
+    });
+
+    after(() => {
+      (ClubModel.findAll as sinon.SinonStub).restore();
+      (MatchModel.findAll as sinon.SinonStub).restore();
+    });
+
+    it('é retornado a tabela de classificação jogos em casa', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard/home');
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[0].name).to.be.equal('Bahia');
+      expect(chaiHttpResponse.body[0].totalPoints).to.be.equal(4);
+      expect(chaiHttpResponse.body[1].name).to.be.equal('Avaí/Kindermann');
+    });
+  });
+
+  describe('GET /leaderboard/away', () => {
+    let chaiHttpResponse: Response;
+
+    before(async () => {
+      sinon.stub(ClubModel, 'findAll').resolves(clubsMock as ClubModel[]);
+      sinon.stub(MatchModel, 'findAll').resolves(leaderboardMock as Matchs[]);
+    });
+
+    after(() => {
+      (ClubModel.findAll as sinon.SinonStub).restore();
+      (MatchModel.findAll as sinon.SinonStub).restore();
+    });
+
+    it('é retornado a tabela de classificação jogos fora de casa', async () => {
+      chaiHttpResponse = await chai.request(app).get('/leaderboard/away');
+
+      expect(chaiHttpResponse).to.have.status(200);
+      expect(chaiHttpResponse.body[0].name).to.be.equal('Avaí/Kindermann');
+      expect(chaiHttpResponse.body[0].totalPoints).to.be.equal(4);
+      expect(chaiHttpResponse.body[1].name).to.be.equal('Bahia');
     });
   });
 });
