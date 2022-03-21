@@ -49,7 +49,29 @@ const getAllHome = async () => {
   return sortClassification(classification);
 };
 
+const getAllAway = async () => {
+  classification = [];
+  const matchsHome = await matchsService.getAll();
+  const clubsHome = await clubService.getAll();
+
+  createArrayClubs(clubsHome, classification);
+
+  matchsHome.forEach((matchAway: Matchs) => {
+    if (matchAway.inProgress) return;
+
+    const result = matchAway.homeTeamGoals - matchAway.awayTeamGoals;
+
+    if (result === 0) return tiedAway(matchAway, classification);
+    if (result > 0) return winHomeAway(matchAway, classification);
+
+    return winAwayAway(matchAway, classification);
+  });
+
+  return sortClassification(classification);
+};
+
 export default {
   getAll,
   getAllHome,
+  getAllAway,
 };
