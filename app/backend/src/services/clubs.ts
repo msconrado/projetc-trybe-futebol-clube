@@ -1,4 +1,4 @@
-import { IId } from '../interfaces/clubsInterface';
+import { IId } from '../interfaces/clubsInterfaces';
 import ClubsModel from '../database/models/ClubsModel';
 
 const getAll = async () => {

@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
-import { IHomeAway, IId, IUpdateGols } from '../interfaces/clubsInterface';
-import { ICreateMatchs } from '../interfaces/matchsInterface';
+import { IHomeAway, IId, IUpdateGols } from '../interfaces/clubsInterfaces';
+import { ICreateMatchs, Matchs } from '../interfaces/matchsInterfaces';
 import ClubModel from '../database/models/ClubsModel';
 import MatchModel from '../database/models/MatchModel';
 
@@ -19,7 +19,8 @@ const getAll = async () => {
       },
     ],
   });
-  return matchs;
+
+  return matchs as Matchs[];
 };
 
 const search = async (query: boolean) => {
