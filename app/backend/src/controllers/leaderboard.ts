@@ -4,8 +4,8 @@ import leaderboardService from '../services/leaderboard';
 const getAll = async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const table = await leaderboardService.getAll();
-    leaderboardService.getAllHome();
-    leaderboardService.getAllAway();
+    await leaderboardService.getAllHome();
+    await leaderboardService.getAllAway();
 
     return res.status(200).json(table);
   } catch (error) {

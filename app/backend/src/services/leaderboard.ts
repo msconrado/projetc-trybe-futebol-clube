@@ -4,6 +4,7 @@ import clubService from './clubs';
 import { IClassification } from '../interfaces/leaderboardInterfaces';
 import createArrayClubs from '../utils/createArrayClubs';
 import sortClassification from '../utils/sortClassification';
+import { winAwayAway, winHomeAway, tiedAway } from '../utils/awayGamesRanking';
 import { tiedHome, winAwayHome, winHomeHome } from '../utils/homeGamesRanking';
 import { winHome, winAway, tied } from '../utils/gamesRanking';
 
@@ -20,8 +21,10 @@ const getAll = async () => {
     if (match.inProgress) return;
 
     const result = match.homeTeamGoals - match.awayTeamGoals;
+
     if (result === 0) return tied(match, classification);
     if (result > 0) return winHome(match, classification);
+
     return winAway(match, classification);
   });
 

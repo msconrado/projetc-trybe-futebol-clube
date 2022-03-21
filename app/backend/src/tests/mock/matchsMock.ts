@@ -40,3 +40,16 @@ export const inProgessFalse = {
   awayTeamGoals: 4,
   inProgress: false,
 };
+
+export const scoreboardResult = {
+  scoreboard: {
+    idMatch: 1,
+    homeTeam: 2,
+    awayTeam: 2,
+  },
+};
+
+export const scoreboardUpdate = {
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+};
