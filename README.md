@@ -3,7 +3,7 @@
 
 Nesse projeto, construir **um back-end dockerizado utilizando modelagem de dados através do Sequelize**.
 
-O **frontend foi disponibilizado pela Trybe**.
+O **front-end foi disponibilizado pela Trybe**.
 
 ---
 
